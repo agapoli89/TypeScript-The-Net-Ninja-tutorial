@@ -1,3 +1,28 @@
+class Invoice {
+  readonly client: string;
+  private details: string;
+  public amount: number;
+
+  constructor(client: string, details: string, amount: number) {
+    this.client = client;
+    this.details = details;
+    this.amount = amount;
+  }
+
+  format() {
+    return `${this.client} owes ${this.amount}PLN for ${this.details}`;
+  }
+}
+
+const invOne = new Invoice("Doggest", "lesson with the dog", 200);
+const invTwo = new Invoice("Cattest", "lesson with the cat", 300);
+
+const invoices: Invoice[] = [];
+invoices.push(invOne);
+invoices.push(invTwo);
+
+invoices.forEach((inv) => console.log(inv.client, inv.amount, inv.format()));
+
 const form = document.querySelector(".new-item-form") as HTMLFormElement;
 
 const type = document.getElementById("type") as HTMLSelectElement;
