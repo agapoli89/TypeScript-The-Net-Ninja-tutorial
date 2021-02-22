@@ -1,19 +1,19 @@
-class Invoice {
-  readonly client: string;
-  private details: string;
-  public amount: number;
+import { Invoice } from "./classes/Invoice.js";
+import { Payment } from "./classes/Payment.js";
+import { HasFormatter } from "./interfaces/HasFormatter.js";
+import { ListTemplate } from "./classes/ListTemplate.js";
 
-  constructor(client: string, details: string, amount: number) {
-    this.client = client;
-    this.details = details;
-    this.amount = amount;
-  }
+/* let docOne: HasFormatter;
+let docTwo: HasFormatter;
 
-  format() {
-    return `${this.client} owes ${this.amount}PLN for ${this.details}`;
-  }
-}
+docOne = new Invoice("Aga", "buy a book", 30);
+docTwo = new Payment("Vet", "visit with Foks", 50);
 
+let docs: HasFormatter[] = [];
+docs.push(docOne);
+docs.push(docTwo);
+console.log(docs); */
+/* 
 const invOne = new Invoice("Doggest", "lesson with the dog", 200);
 const invTwo = new Invoice("Cattest", "lesson with the cat", 300);
 
@@ -21,7 +21,7 @@ const invoices: Invoice[] = [];
 invoices.push(invOne);
 invoices.push(invTwo);
 
-invoices.forEach((inv) => console.log(inv.client, inv.amount, inv.format()));
+invoices.forEach((inv) => console.log(inv.client, inv.amount, inv.format())); */
 
 const form = document.querySelector(".new-item-form") as HTMLFormElement;
 
@@ -30,7 +30,18 @@ const tofrom = document.getElementById("tofrom") as HTMLInputElement;
 const details = document.getElementById("details") as HTMLInputElement;
 const amount = document.getElementById("amount") as HTMLInputElement;
 
+const ul = document.querySelector(".item-list") as HTMLUListElement;
+
+const list = new ListTemplate(ul);
+
 form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
-  console.log(type.value, tofrom.value, details.value, amount.valueAsNumber);
+
+  let doc: HasFormatter;
+  if (type.value === "invoice") {
+    doc = new Invoice(tofrom.value, details.value, amount.valueAsNumber);
+  } else {
+    doc = new Payment(tofrom.value, details.value, amount.valueAsNumber);
+  }
+  list.render(doc, type.value, "end");
 });
